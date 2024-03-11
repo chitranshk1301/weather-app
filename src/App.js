@@ -51,7 +51,7 @@ const Weather = () => {
   return (
     <div
       className="container mx-auto p-4"
-      style={{ backgroundImage: `url(${backgroundImageUrl || ''})`, backgroundSize: 'cover', ...(!backgroundImageUrl && gradientStyles) }}
+      style={{ background: 'linear-gradient(135deg, #000000 0%, #282844 100%)' }}
     >
       <div className="">
         <DefaultWeather />
@@ -67,15 +67,19 @@ const Weather = () => {
         </div>
         {isLoading && <p className="text-lg">Loading weather data...</p>}
         {weatherData && (
-          <div>
-            <h2 className="text-2xl font-bold mb-4">{weatherData.location.name}</h2>
-            <p>Temperature: {weatherData.current.temp_c}°C</p>
-            <p>Humidity: {weatherData.current.humidity}%</p>
-            <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
-            <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
-            <p className="mt-2">
-              Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" className="inline-block align-middle" /> - {weatherData.current.condition.text}
-            </p>
+          <div
+            style={{ backgroundImage: `url(${backgroundImageUrl || ''})`, backgroundSize: 'cover', ...(!backgroundImageUrl && gradientStyles) }}
+          >
+            <div className='p-4 mt-4 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg text-white bg-white'>
+              <h2 className="text-2xl font-bold mb-4">{weatherData.location.name}</h2>
+              <p>Temperature: {weatherData.current.temp_c}°C</p>
+              <p>Humidity: {weatherData.current.humidity}%</p>
+              <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
+              <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
+              <p className="mt-2">
+                Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" className="inline-block align-middle" /> - {weatherData.current.condition.text}
+              </p>
+            </div>
           </div>
         )}
 

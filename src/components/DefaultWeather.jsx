@@ -45,22 +45,28 @@ const DefaultWeather = () => {
   }, []);
 
   return (
-    <div className="mt-4 p-4 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg w-1/3 bg-white">
+    <div className="mt-4 p-2 mx-96 px-20 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg w-1/2 text-white bg-white grid grid-cols-2 gap-4">
       {isLoading && <p className="text-lg">Loading weather data...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {weatherData && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">{weatherData.location.name}</h2>
-          <p className="text-xl">Temperature: {weatherData.current.temp_c}°C</p>
-          <p>Humidity: {weatherData.current.humidity}%</p>
-          <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
-          <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
-          <p>
-            Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" className="inline-block align-middle" /> {weatherData.current.condition.text}
-          </p>
-        </div>
+        <>
+          <div className='row-span-2'>
+            <h2 className="text-2xl font-bold mb-4">
+              <img src={weatherData.current.condition.icon} alt="Weather icon" className='inline-block h-[120px] w-[120px]' />
+              {weatherData.current.temp_c}°C
+            </h2>
+            <p className='text-5xl ml-10'>{weatherData.location.name}</p>
+            <p className='ml-10 mb-8'>{weatherData.current.condition.text}</p>
+          </div>
+          <div className='grid grid-row-3 gap-4 mt-10'>
+            <p>Humidity: {weatherData.current.humidity}%</p>
+            <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
+            <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
+          </div>
+        </>
       )}
     </div>
+
   );
 };
 
