@@ -18,7 +18,7 @@ const Weather = () => {
       setError(null);
 
       try {
-        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${searchQuery}`);
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${searchQuery}`);
         const data = await response.json();
         setWeatherData(data);
 

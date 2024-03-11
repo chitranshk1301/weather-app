@@ -11,7 +11,7 @@ const WeatherForecast = ({ city }) => {
       setError(null);
 
       try {
-        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${city}&days=7`);
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${city}&days=7`);
         const data = await response.json();
         setForecastData(data.forecast);
       } catch (error) {
