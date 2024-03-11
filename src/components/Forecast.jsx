@@ -26,21 +26,23 @@ const WeatherForecast = ({ city }) => {
   }, [city]);
 
   return (
-    <div>
-      {isLoading && <p>Loading forecast data...</p>}
-      {error && <p>{error}</p>}
+    <div className="mt-4 p-4 bg-gray-100 rounded-md">
+      {isLoading && <p className="text-lg">Loading forecast data...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       {forecastData && (
         <div>
-          <h2>7-Day Weather Forecast for {city}</h2>
-          {forecastData.forecastday.map((day, index) => (
-            <div key={index}>
-              <p>Date: {day.date}</p>
-              <p>Max Temperature: {day.day.maxtemp_c}°C</p>
-              <p>Min Temperature: {day.day.mintemp_c}°C</p>
-              <p>Condition: {day.day.condition.text}</p>
-              <img src={day.day.condition.icon} alt="Weather icon" />
-            </div>
-          ))}
+          <h2 className="text-2xl font-bold mb-4">7-Day Weather Forecast for {city}</h2>
+          <div className="grid grid-cols-7 gap-4">
+            {forecastData.forecastday.map((day, index) => (
+              <div key={index} className="bg-white p-2 rounded-md shadow-md">
+                <p className="font-bold text-sm mb-1">Date: {day.date}</p>
+                <p>Max: {day.day.maxtemp_c}°C</p>
+                <p>Min: {day.day.mintemp_c}°C</p>
+                <p>{day.day.condition.text}</p>
+                <img src={day.day.condition.icon} alt="Weather icon" className="mt-1" />
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

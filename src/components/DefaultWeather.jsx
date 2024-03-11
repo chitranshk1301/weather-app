@@ -45,20 +45,20 @@ const DefaultWeather = () => {
   }, []);
 
   return (
-    <div>
-      {isLoading && <p>Loading weather data...</p>}
-      {error && <p>{error}</p>}
+    <div className="mt-4 p-4 bg-gray-100 rounded-md">
+      {isLoading && <p className="text-lg">Loading weather data...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       {weatherData && (
-        <>
-          <h2>{weatherData.location.name}</h2>
-          <p>Temperature: {weatherData.current.temp_c}°C</p>
+        <div>
+          <h2 className="text-2xl font-bold mb-4">{weatherData.location.name}</h2>
+          <p className="text-xl">Temperature: {weatherData.current.temp_c}°C</p>
           <p>Humidity: {weatherData.current.humidity}%</p>
           <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
           <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
           <p>
-            Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" /> - {weatherData.current.condition.text}
+            Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" className="inline-block align-middle" /> {weatherData.current.condition.text}
           </p>
-        </>
+        </div>
       )}
     </div>
   );

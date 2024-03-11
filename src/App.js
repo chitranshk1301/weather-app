@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DefaultWeather from './components/DefaultWeather';
-import Forecast from './components/Forecast'
+import Forecast from './components/Forecast';
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -37,29 +37,31 @@ const Weather = () => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto mt-8 p-4">
       <DefaultWeather />
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <button onClick={handleButtonClick}>Fetch Weather</button>
-      {isLoading && <p>Loading weather data...</p>}
-      {error && <p>{error}</p>}
+      <div className="my-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border p-2 rounded"
+        />
+        <button onClick={handleButtonClick} className="ml-2 bg-blue-500 text-white p-2 rounded">Fetch Weather</button>
+      </div>
+      {isLoading && <p className="text-lg">Loading weather data...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       {weatherData && (
-        <>
-          <h2>{weatherData.location.name}</h2>
-          <p>Temperature: {weatherData.current.temp_c}°C</p>
+        <div>
+          <h2 className="text-2xl font-bold mb-4">{weatherData.location.name}</h2>
+          <p className="text-3xl font-bold underline">Temperature: {weatherData.current.temp_c}°C</p>
           <p>Humidity: {weatherData.current.humidity}%</p>
           <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
           <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
-          <p>
-            Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" /> - {weatherData.current.condition.text}
+          <p className="mt-2">
+            Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" className="inline-block align-middle" /> - {weatherData.current.condition.text}
           </p>
-
-        </>
+        </div>
       )}
 
       <Forecast city={searchQuery} />
