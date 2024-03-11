@@ -45,7 +45,7 @@ const DefaultWeather = () => {
   }, []);
 
   return (
-    <div className="mt-4 p-4 bg-gray-100 rounded-md">
+    <div className="mt-4 p-4 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg w-1/3 bg-white">
       {isLoading && <p className="text-lg">Loading weather data...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {weatherData && (

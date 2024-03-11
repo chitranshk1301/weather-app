@@ -31,7 +31,7 @@ const WeatherForecast = ({ city }) => {
       {error && <p className="text-red-500">{error}</p>}
       {forecastData && (
         <div>
-          <h2 className="text-2xl font-bold mb-4">7-Day Weather Forecast for {city}</h2>
+          <h2 className="text-2xl font-bold mb-4">Weather Forecast for next 7 days in {city}</h2>
           <div className="grid grid-cols-7 gap-4">
             {forecastData.forecastday.map((day, index) => (
               <div key={index} className="bg-white p-2 rounded-md shadow-md">
