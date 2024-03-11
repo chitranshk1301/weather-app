@@ -1,60 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import Weather from './components/Weather';
-import Search from './components/Search';
-import Forecast from './components/Forecast';
 
-export default function App() {
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
-  const [weatherData, setWeatherData] = useState(null);
-  const [forecastData, setForecastData] = useState(null);
+const Weather = () => {
+ const [weatherData, setWeatherData] = useState(null);
+ const [searchQuery, setSearchQuery] = useState('');
+ const [isLoading, setIsLoading] = useState(false);
+ const [error, setError] = useState(null);
+ const [isButtonClicked, setIsButtonClicked] = useState(false);
 
+ useEffect(() => {
+    const fetchWeatherData = async () => {
+      if (!searchQuery || !isButtonClicked) return; // Check if the button is clicked
 
-  useEffect(() => {
-    const fetchData = async () => {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        setLat(position.coords.latitude);
-        setLong(position.coords.longitude);
-      });
+      setIsLoading(true);
+      setError(null);
 
-      // await fetch(`${process.env.REACT_APP_API_URL}/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
-      await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}/{date}/{unit}?key={API key}&include=obs      `)
-        .then(res => res.json())
-        .then(result => {
-          setWeatherData(result.current);
-          console.log(result);
-        });
+      try {
+        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${searchQuery}`);
+        const data = await response.json();
+        setWeatherData(data);
+      } catch (error) {
+        console.error("Failed to fetch weather data:", error);
+        setError("Failed to fetch weather data. Please try again.");
+      } finally {
+        setIsLoading(false);
+        setIsButtonClicked(false);
+      }
+    };
 
-      await fetch(`${process.env.REACT_APP_API_URL}/?lat=${lat}&lon=${long}&units=metric&APPID=${process.env.REACT_APP_API_KEY}`)
-        .then(res => res.json())
-        .then(result => {
-          setForecastData(result.list);
-          console.log(result);
-        });
-    }
-    fetchData();
-  }, [lat, long]);
+    fetchWeatherData();
+ }, [searchQuery, isButtonClicked]); // Only run when searchQuery or isButtonClicked changes
 
-  const handleSearch = async (city) => {
-    const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}`);
-    const weatherData = await weatherResponse.json();
-    setWeatherData(weatherData);
+ const handleButtonClick = () => {
+    // Set the button-clicked state to true when the button is clicked
+    setIsButtonClicked(true);
+ };
 
-    const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${process.env.REACT_APP_API_KEY}`);
-    const forecastData = await forecastResponse.json();
-    setForecastData(forecastData);
-  };
-
-
-  return (
-    <div className='App'>
-      <Search onSearch={handleSearch} />
+ return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      <button onClick={handleButtonClick}>Fetch Weather</button>
+      {isLoading && <p>Loading weather data...</p>}
+      {error && <p>{error}</p>}
       {weatherData && (
         <>
-          <Weather weatherData={weatherData} />
-          <Forecast forecastData={forecastData} />
+          <h2>{weatherData.location.name}</h2>
+          <p>Temperature: {weatherData.current.temp_c}°C</p>
+          <p>Description: {weatherData.current.condition.text}</p>
         </>
       )}
     </div>
-  );
-}
+ );
+};
+
+export default Weather;

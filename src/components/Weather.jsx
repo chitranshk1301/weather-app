@@ -1,17 +1,13 @@
 import React from 'react';
+import Weather from './Weather';
 
-const Weather = ({ weatherData }) => {
+const App = () => {
  return (
-    <div className="weather-container">
-      <h2>{weatherData.name}, {weatherData.sys.city}</h2>
-      <div className="weather-info">
-        <img src={`https://openweathermap.org/img/w/${weatherData.weather[0].icon}.png`} alt={weatherData.weather[0].description} />
-        <p>{Math.round(weatherData.main.temp)}°C</p>
-        <p>{weatherData.weather[0].description.toUpperCase()}</p>
-        <p>Wind Speed: {weatherData.wind.speed} m/s</p>
-      </div>
+    <div>
+      <h1>Weather Forecast App</h1>
+      <Weather city="London" />
     </div>
  );
 };
 
-export default Weather;
+export default App;
