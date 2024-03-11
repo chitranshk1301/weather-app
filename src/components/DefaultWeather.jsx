@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import DefaultWeather from './components/DefaultWeather';
-import Forecast from './components/Forecast'
 
-const Weather = () => {
+const DefaultWeather = () => {
   const [weatherData, setWeatherData] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      if (!searchQuery || !isButtonClicked) return;
-
+    const fetchWeatherData = async (latitude, longitude) => {
       setIsLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${searchQuery}`);
+        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_WEATHER_API_KEY}&q=${latitude},${longitude}`);
         const data = await response.json();
         setWeatherData(data);
       } catch (error) {
@@ -25,27 +19,33 @@ const Weather = () => {
         setError("Failed to fetch weather data. Please try again.");
       } finally {
         setIsLoading(false);
-        setIsButtonClicked(false);
       }
     };
 
-    fetchWeatherData();
-  }, [searchQuery, isButtonClicked]);
+    const getLocationAndFetchWeather = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            fetchWeatherData(latitude, longitude);
+          },
+          (error) => {
+            console.error("Error getting location:", error);
+            setError("Error getting location. Please try again.");
+            setIsLoading(false);
+          }
+        );
+      } else {
+        setError("Geolocation is not supported by your browser.");
+        setIsLoading(false);
+      }
+    };
 
-  const handleButtonClick = () => {
-    setIsButtonClicked(true);
-  };
+    getLocationAndFetchWeather();
+  }, []);
 
   return (
     <div>
-      <DefaultWeather />
-      <input
-        type="text"
-        placeholder="Search..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <button onClick={handleButtonClick}>Fetch Weather</button>
       {isLoading && <p>Loading weather data...</p>}
       {error && <p>{error}</p>}
       {weatherData && (
@@ -58,13 +58,10 @@ const Weather = () => {
           <p>
             Weather description: <img src={weatherData.current.condition.icon} alt="Weather icon" /> - {weatherData.current.condition.text}
           </p>
-
         </>
       )}
-
-      <Forecast city={searchQuery} />
     </div>
   );
 };
 
-export default Weather;
+export default DefaultWeather;
