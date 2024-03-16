@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Loader from './Loader/Loader';
 
 const DefaultWeather = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -45,20 +46,21 @@ const DefaultWeather = () => {
   }, []);
 
   return (
-    <div className="mt-4 p-2 mx-96 px-20 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg w-1/2 text-white bg-white grid grid-cols-2 gap-4">
-      {isLoading && <p className="text-lg">Loading weather data...</p>}
+    <div className="mt-4 p-2 md:mx-96 md:px-20 md:min-h-[100px] md:min-w-[200px] bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg w-full md:w-1/2 text-white bg-white grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* {isLoading && <p className="text-lg">Loading weather data...</p>} */}
+      {isLoading && <Loader />}
       {error && <p className="text-red-500">{error}</p>}
       {weatherData && (
         <>
-          <div className='row-span-2'>
+          <div className='col-span-2 md:col-span-1'>
             <h2 className="text-2xl font-bold mb-4">
-              <img src={weatherData.current.condition.icon} alt="Weather icon" className='inline-block h-[120px] w-[120px]' />
+              <img src={weatherData.current.condition.icon} alt="Weather icon" className='inline-block h-[120px] w-[120px] md:h-[80px] md:w-[80px]' />
               {weatherData.current.temp_c}°C
             </h2>
-            <p className='text-5xl ml-10'>{weatherData.location.name}</p>
-            <p className='ml-10 mb-8'>{weatherData.current.condition.text}</p>
+            <p className='text-5xl ml-10 md:ml-0'>{weatherData.location.name}</p>
+            <p className='ml-10 md:ml-0 mb-8'>{weatherData.current.condition.text}</p>
           </div>
-          <div className='grid grid-row-3 gap-4 mt-10'>
+          <div className='grid grid-row-3 gap-4 md:grid-cols-1'>
             <p>Humidity: {weatherData.current.humidity}%</p>
             <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
             <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
@@ -66,6 +68,7 @@ const DefaultWeather = () => {
         </>
       )}
     </div>
+
 
   );
 };

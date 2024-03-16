@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Loader from './Loader/Loader';
 
 const WeatherForecast = ({ city }) => {
   const [forecastData, setForecastData] = useState(null);
@@ -27,12 +31,35 @@ const WeatherForecast = ({ city }) => {
 
   return (
     <div className="mt-4 p-4 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg text-black bg-white">
-      {isLoading && <p className="text-lg">Loading forecast data...</p>}
+      {isLoading && <Loader />}
       {error && <p className="text-red-500">{error}</p>}
       {forecastData && (
         <div>
           <h2 className="text-2xl font-bold mb-4">Weather Forecast for next 7 days in {city}</h2>
-          <div className="grid grid-cols-7 gap-4">
+          <Slider
+            className="grid grid-cols-1 md:grid-cols-7 gap-7"
+            dots={true}
+            infinite={true}
+            speed={500}
+            slidesToShow={1}
+            slidesToScroll={1}
+            responsive={[
+              {
+                breakpoint: 768, // This is for mobile devices
+                settings: {
+                  slidesToShow: 1,
+                  slidesToScroll: 1,
+                },
+              },
+              {
+                breakpoint: 1024, // This is for tablets
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 1,
+                },
+              },
+            ]}
+          >
             {forecastData.forecastday.map((day, index) => (
               <div key={index} className="bg-white p-2 rounded-md shadow-md bg-opacity-40">
                 <p className="font-bold text-sm mb-1">Date: {day.date}</p>
@@ -42,10 +69,11 @@ const WeatherForecast = ({ city }) => {
                 <img src={day.day.condition.icon} alt="Weather icon" className="mt-1" />
               </div>
             ))}
-          </div>
+          </Slider>
         </div>
       )}
     </div>
+
   );
 };
 

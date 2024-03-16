@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Loader from './components/Loader/Loader';
 import DefaultWeather from './components/DefaultWeather';
 import Forecast from './components/Forecast';
 
@@ -6,7 +7,8 @@ const Weather = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  // eslint-disable-next-line
+  const [error, setError] = useState(null); 
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [backgroundImageUrl, setBackgroundImageUrl] = useState('');
 
@@ -50,12 +52,11 @@ const Weather = () => {
 
   return (
     <div
-      className="container mx-auto p-4"
-      style={{ background: 'linear-gradient(135deg, #000000 0%, #282844 100%)' }}
+      className="container mx-auto p-4 min-h-screen bg-gradient-to-br from-black to-gray-900"
     >
-      <div className="">
+      <div className="mx-auto flex flex-col">
         <DefaultWeather />
-        <div className="my-4">
+        <div className="my-4 h-full bg-gradient-to-br from-black to-gray-900">
           <input
             type="text"
             placeholder="Search..."
@@ -65,10 +66,11 @@ const Weather = () => {
           />
           <button onClick={handleButtonClick} className="ml-2 bg-blue-500 text-white p-2 rounded">Fetch Weather</button>
         </div>
-        {isLoading && <p className="text-lg">Loading weather data...</p>}
+        {/* {isLoading && <p className="text-lg">Loading weather data...</p>} */}
+        {isLoading && <Loader />}
         {weatherData && (
           <div
-            style={{ backgroundImage: `url(${backgroundImageUrl || ''})`, backgroundSize: 'cover', ...(!backgroundImageUrl && gradientStyles) }}
+            style={{ backgroundImage: `url(${backgroundImageUrl || ''})`, backgroundSize: 'fill', ...(!backgroundImageUrl && gradientStyles) }}
           >
             <div className='p-4 mt-4 bg-opacity-25 backdrop-filter backdrop-blur-md rounded-lg text-white bg-white'>
               <h2 className="text-2xl font-bold mb-4">{weatherData.location.name}</h2>
