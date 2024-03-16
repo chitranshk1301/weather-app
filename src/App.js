@@ -56,7 +56,7 @@ const Weather = () => {
     >
       <div className="mx-auto flex flex-col">
         <DefaultWeather />
-        <div className="my-4 h-full bg-gradient-to-br from-black to-gray-900">
+        <div className="my-4">
           <input
             type="text"
             placeholder="Search..."
