@@ -57,10 +57,10 @@ const DefaultWeather = () => {
               <img src={weatherData.current.condition.icon} alt="Weather icon" className='inline-block h-[120px] w-[120px] md:h-[80px] md:w-[80px]' />
               {weatherData.current.temp_c}°C
             </h2>
-            <p className='text-5xl ml-10 md:ml-0'>{weatherData.location.name}</p>
+            <p className='text-5xl ml-10 md:ml-0 -mt-5'>{weatherData.location.name}</p>
             <p className='ml-10 md:ml-0 mb-8'>{weatherData.current.condition.text}</p>
           </div>
-          <div className='grid grid-row-3 gap-4 md:grid-cols-1'>
+          <div className='grid grid-row-3 gap-4 md:grid-cols-1 md:gap-1 md:py-7'>
             <p>Humidity: {weatherData.current.humidity}%</p>
             <p>Wind speed - mph: {weatherData.current.wind_mph}m/h</p>
             <p>Wind speed - kmph: {weatherData.current.wind_kph}km/h</p>
